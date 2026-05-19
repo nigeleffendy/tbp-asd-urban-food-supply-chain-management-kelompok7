@@ -90,3 +90,21 @@ class BSTKatalog:
         else:
             return self._search_rekursif(node.right, kode)  # cari ke kanan
  
+    # ─────────────────────────────────────────
+    #  UPDATE STOK
+    # ─────────────────────────────────────────
+    def update_stok(self, kode: str, delta: int) -> bool:
+        """
+        Ubah stok produk sebesar delta (bisa positif/negatif).
+        Stok tidak akan turun di bawah 0.
+        Kembalikan True jika berhasil, False jika produk tidak ditemukan.
+        Big-O: O(log n).
+        """
+        produk = self.search(kode)
+        if produk is None:
+            return False
+ 
+        # pastikan stok tidak negatif
+        produk.stok = max(0, produk.stok + delta)
+        return True
+ 
