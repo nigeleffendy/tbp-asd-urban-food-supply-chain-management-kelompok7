@@ -32,7 +32,8 @@ class BSTNodeProd:
 class BSTKatalog:
     """
     Binary Search Tree untuk menyimpan dan mengelola katalog produk.
-    Kunci pencarian: produk.kode  (string, dibandingkan secara leksikografis).
+    Kunci pencarian: produk.kode  (string, dibandingkan secara leksikografis(membandingkan 
+    atau mengurutkan data berdasarkan urutan seperti di kamus)).
     """
  
     def __init__(self):
@@ -50,7 +51,7 @@ class BSTKatalog:
         self.root = self._insert_rekursif(self.root, produk)
  
     def _insert_rekursif(self, node, produk):
-        # basis: posisi kosong ditemukan, buat node baru
+        # basis: posisi kosong ditemukan, lalu buat node baru
         if node is None:
             return BSTNodeProd(produk)
  
@@ -65,4 +66,27 @@ class BSTKatalog:
             node.produk = produk
  
         return node
+ 
+    # ─────────────────────────────────────────
+    #  SEARCH
+    # ─────────────────────────────────────────
+    def search(self, kode: str):
+        """
+        Cari produk berdasarkan kode.
+        Kembalikan objek Produk jika ditemukan, None jika tidak ada.
+        Big-O: O(log n) rata-rata.
+        """
+        return self._search_rekursif(self.root, kode)
+ 
+    def _search_rekursif(self, node, kode):
+        # basis: node kosong = tidak ditemukan
+        if node is None:
+            return None
+ 
+        if kode == node.produk.kode:
+            return node.produk               # ketemu!
+        elif kode < node.produk.kode:
+            return self._search_rekursif(node.left, kode)   # cari ke kiri
+        else:
+            return self._search_rekursif(node.right, kode)  # cari ke kanan
  
