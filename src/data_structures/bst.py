@@ -108,3 +108,24 @@ class BSTKatalog:
         produk.stok = max(0, produk.stok + delta)
         return True
  
+    # ─────────────────────────────────────────
+    #  FILTER KADALUARSA
+    # ─────────────────────────────────────────
+    def filter_kadaluarsa(self, maks_hari: int) -> list:
+        """
+        Kembalikan list produk yang masa kadaluarsanya <= maks_hari.
+        Menggunakan inorder traversal agar hasil terurut berdasarkan kode.
+        Big-O: O(n)  - harus kunjungi semua node.
+        """
+        hasil = []
+        self._inorder_filter(self.root, maks_hari, hasil)
+        return hasil
+ 
+    def _inorder_filter(self, node, maks_hari, hasil):
+        if node is None:
+            return
+        self._inorder_filter(node.left, maks_hari, hasil)    # kunjungi kiri
+        if node.produk.masa_kadaluarsa_hari <= maks_hari:
+            hasil.append(node.produk)                         # lolos filter
+        self._inorder_filter(node.right, maks_hari, hasil)   # kunjungi kanan
+ 
