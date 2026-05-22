@@ -58,3 +58,69 @@ from src.modules.modul_5 import (
 )
 
 
+# ─────────────────────────────────────────────
+#  TEKS BANTUAN
+# ─────────────────────────────────────────────
+
+TEKS_BANTUAN = """
+╔══════════════════════════════════════════════════════════════════╗
+║        FOOD SUPPLY CHAIN SYSTEM  -  Daftar Perintah              ║
+╠══════════════════════════════════════════════════════════════════╣
+║  KIRIM <dari> <ke> <kode> <jumlah>                               ║
+║      Buat pengiriman baru ke antrian prioritas.                  ║
+║      Contoh: KIRIM PTN00 PSR02 PRD-001 50                        ║
+║                                                                  ║
+║  PROSES_KIRIM                                                    ║
+║      Proses satu pengiriman paling mendesak dari antrian.        ║
+║                                                                  ║
+║  RUTE_MURAH <dari> <ke>                                          ║
+║      Tampilkan jalur distribusi termurah (Dijkstra).             ║
+║      Contoh: RUTE_MURAH PTN00 GDG02                              ║
+║                                                                  ║
+║  CEK_STOK <kode>                                                 ║
+║      Cek stok & info produk dari katalog BST.                    ║
+║      Contoh: CEK_STOK PRD-003                                    ║
+║                                                                  ║
+║  KATALOG                                                         ║
+║      Tampilkan seluruh katalog produk (BST inorder).             ║
+║                                                                  ║
+║  KADALUARSA <maks_hari>                                          ║
+║      Daftar produk yang kadaluarsa dalam N hari ke depan.        ║
+║      Contoh: KADALUARSA 7                                        ║
+║                                                                  ║
+║  LAPORAN_DISTRIBUSI                                              ║
+║      Ringkasan lengkap: jaringan, katalog, antrian, log.         ║
+║                                                                  ║
+║  BUFFER <node_id>                                                ║
+║      Lihat isi circular queue buffer gudang suatu node.          ║
+║      Contoh: BUFFER GDG00                                        ║
+║                                                                  ║
+║  AUDIT_JARINGAN                                                  ║
+║      Uji konektivitas seluruh jaringan distribusi (BFS/DFS).     ║
+║                                                                  ║
+║  ANTRIAN                                                         ║
+║      Tampilkan semua pengiriman yang sedang menunggu.            ║
+║                                                                  ║
+║  BANTUAN                                                         ║
+║      Tampilkan daftar perintah ini.                              ║
+║                                                                  ║
+║  KELUAR                                                          ║
+║      Keluar dari sistem.                                         ║
+╚══════════════════════════════════════════════════════════════════╝
+"""
+
+
+# ─────────────────────────────────────────────
+#  HELPER CETAK
+# ─────────────────────────────────────────────
+
+def _garis(karakter: str = '─', panjang: int = 62):
+    print(f"  {karakter * panjang}")
+
+def _header(judul: str):
+    print(f"\n  {'═' * 62}")
+    print(f"  {judul}")
+    print(f"  {'═' * 62}")
+
+
+
