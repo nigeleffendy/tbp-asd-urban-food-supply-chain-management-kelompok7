@@ -347,3 +347,91 @@ def _tampilkan_log(log_transaksi: Stack, n: int = 5):
             print(f"    {entry}")
 
 
+# ─────────────────────────────────────────────
+#  MAIN CLI LOOP
+# ─────────────────────────────────────────────
+
+def jalankan_cli(
+    graph         : GraphRantaiPasok,
+    bst_katalog   : BSTKatalog,
+    pq_kirim      : PriorityQueueKirim,
+    log_transaksi : Stack,
+    buffer_gudang : dict,
+    kirim_counter : list           # [int] – wrapper mutable untuk counter
+):
+    """
+    Loop utama CLI sistem rantai pasok.
+    Terima perintah dari stdin, parse, dan delegasikan ke handler yang tepat.
+
+    Parameter:
+        Semua state sistem dioper masuk agar CLI bisa memanipulasi data
+        tanpa variabel global.
+    """
+    print("\n  Food Supply Chain System  -  Kota Yogyakarta")
+    print("  Ketik BANTUAN untuk daftar perintah, KELUAR untuk berhenti.")
+    _garis('═')
+
+    while True:
+        try:
+            raw = input("\n>> ").strip()
+        except (EOFError, KeyboardInterrupt):
+            print("\n  Sistem dihentikan paksa. Sampai jumpa!")
+            break
+
+        if not raw:
+            continue
+
+        bagian = raw.split()
+        cmd    = bagian[0].upper()
+
+        # ── dispatch perintah ──────────────────────────────────────
+
+        if cmd == 'BANTUAN':
+            print(TEKS_BANTUAN)
+
+        elif cmd == 'KELUAR':
+            print("\n  Sistem dimatikan. Terima kasih telah menggunakan")
+            print("  Urban Food Supply Chain Management - Yogyakarta.")
+            _garis()
+            break
+
+        elif cmd == 'KIRIM':
+            _handle_kirim(
+                bagian, graph, pq_kirim, log_transaksi,
+                bst_katalog, kirim_counter
+            )
+
+        elif cmd == 'PROSES_KIRIM':
+            _handle_proses_kirim(
+                pq_kirim, log_transaksi, bst_katalog, buffer_gudang
+            )
+
+        elif cmd == 'RUTE_MURAH':
+            _handle_rute_murah(bagian, graph, log_transaksi)
+
+        elif cmd == 'CEK_STOK':
+            _handle_cek_stok(bagian, bst_katalog)
+        
+        elif cmd == 'KATALOG':
+            _handle_katalog(bst_katalog)
+
+        elif cmd == 'KADALUARSA':
+            _handle_kadaluarsa(bagian, bst_katalog)
+
+        elif cmd == 'LAPORAN_DISTRIBUSI':
+            _handle_laporan(
+                graph, bst_katalog, pq_kirim, log_transaksi, buffer_gudang
+            )
+
+        elif cmd == 'BUFFER':
+            _handle_buffer(bagian, buffer_gudang, graph)
+
+        elif cmd == 'AUDIT_JARINGAN':
+            _handle_audit_jaringan(graph)
+
+        elif cmd == 'ANTRIAN':
+            _handle_antrian(pq_kirim, bst_katalog)
+
+        else:
+            print(f"  [!] Perintah '{cmd}' tidak dikenal.")
+            print("      Ketik BANTUAN untuk melihat daftar perintah yang tersedia.")
