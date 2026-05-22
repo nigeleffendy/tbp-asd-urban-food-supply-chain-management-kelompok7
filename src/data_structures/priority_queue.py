@@ -22,7 +22,7 @@
 # =============================================================================
 
 
-from data_structures.linked_list import LLNode
+from src.data_structures.linked_list import LLNode
 
 class PriorityQueueKirim:
     """
