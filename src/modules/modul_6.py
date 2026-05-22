@@ -123,4 +123,71 @@ def _header(judul: str):
     print(f"  {'═' * 62}")
 
 
+# ─────────────────────────────────────────────
+#  HANDLER TIAP PERINTAH
+# ─────────────────────────────────────────────
 
+def _handle_kirim(bagian, graph, pq_kirim, log_transaksi, bst_katalog, kirim_counter):
+    """Handler perintah KIRIM <dari> <ke> <kode> <jumlah>."""
+    if len(bagian) < 5:
+        print("  [!] Format: KIRIM <dari> <ke> <kode> <jumlah>")
+        print("      Contoh: KIRIM PTN00 PSR02 PRD-001 50")
+        return
+
+    dari_node, ke_node, kode = bagian[1], bagian[2], bagian[3]
+
+    try:
+        jumlah = int(bagian[4])
+        if jumlah <= 0:
+            print("  [!] Jumlah harus lebih dari 0.")
+            return
+    except ValueError:
+        print("  [!] Jumlah harus berupa bilangan bulat positif.")
+        return
+
+    # validasi node ada di jaringan
+    if dari_node not in graph.adj:
+        print(f"  [!] Node asal '{dari_node}' tidak ditemukan. "
+              f"Gunakan AUDIT_JARINGAN untuk melihat daftar node.")
+        return
+    if ke_node not in graph.adj:
+        print(f"  [!] Node tujuan '{ke_node}' tidak ditemukan.")
+        return
+
+    sukses, pesan = buat_pengiriman(
+        pq_kirim, log_transaksi, bst_katalog,
+        kirim_counter, dari_node, ke_node, kode, jumlah
+    )
+
+    if sukses:
+        print(f"  [OK] {pesan}")
+    else:
+        print(f"  [!] {pesan}")
+
+
+def _handle_proses_kirim(pq_kirim, log_transaksi, bst_katalog, buffer_gudang):
+    """Handler perintah PROSES_KIRIM."""
+    sukses, pesan = proses_pengiriman(
+        pq_kirim, log_transaksi, bst_katalog, buffer_gudang
+    )
+    if sukses:
+        print(f"  [OK] {pesan}")
+    else:
+        print(f"  [!] {pesan}")
+
+
+def _handle_rute_murah(bagian, graph, log_transaksi):
+    """Handler perintah RUTE_MURAH <dari> <ke>."""
+    if len(bagian) < 3:
+        print("  [!] Format: RUTE_MURAH <dari> <ke>")
+        print("      Contoh: RUTE_MURAH PTN00 GDG02")
+        return
+
+    asal, tujuan = bagian[1], bagian[2]
+    sukses, hasil = cari_rute_termurah(graph, log_transaksi, asal, tujuan)
+
+    if sukses:
+        _header(f"Jalur Termurah  {asal}  →  {tujuan}")
+        tampilkan_rute(graph, hasil)
+    else:
+        print(f"  [!] {hasil}")
