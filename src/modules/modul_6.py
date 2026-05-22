@@ -317,3 +317,33 @@ def _handle_antrian(pq_kirim, bst_katalog):
     print()
     ringkasan_antrian(pq_kirim)
 
+# ─────────────────────────────────────────────
+#  HELPER LOG
+# ─────────────────────────────────────────────
+
+def _tampilkan_log(log_transaksi: Stack, n: int = 5):
+    """
+    Tampilkan n entri log terakhir dari stack secara non-destructive.
+    Ambil dari stack sementara, lalu kembalikan ke stack asli.
+    """
+    temp  = Stack()
+    items = []
+
+    # ambil hingga n item dari stack utama
+    for _ in range(min(n, len(log_transaksi))):
+        item = log_transaksi.pop()
+        if item is not None:
+            items.append(item)
+            temp.push(item)
+
+    # kembalikan semua item ke stack utama
+    while len(temp) > 0:
+        log_transaksi.push(temp.pop())
+
+    if not items:
+        print("    (belum ada transaksi)")
+    else:
+        for entry in items:
+            print(f"    {entry}")
+
+
