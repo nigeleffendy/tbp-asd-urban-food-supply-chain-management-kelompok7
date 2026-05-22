@@ -22,15 +22,7 @@
 # =============================================================================
 
 
-class _LLNode:
-    """
-    Node internal untuk linked list Priority Queue.
-    Menyimpan satu objek Pengiriman dan pointer ke node berikutnya.
-    """
-    def __init__(self, data):
-        self.data = data
-        self.next = None
-
+from data_structures.linked_list import LLNode
 
 class PriorityQueueKirim:
     """
@@ -51,7 +43,7 @@ class PriorityQueueKirim:
         Pengiriman dengan prioritas lebih kecil (lebih mendesak) berada di depan.
         Big-O: O(n)  - traversal untuk menemukan posisi sisip.
         """
-        baru = _LLNode(pengiriman)
+        baru = LLNode(pengiriman)
 
         # Kasus 1: antrian kosong ATAU pengiriman baru lebih mendesak dari head
         if self.head is None or pengiriman.prioritas < self.head.data.prioritas:

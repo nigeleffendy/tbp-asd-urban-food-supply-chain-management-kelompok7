@@ -19,15 +19,7 @@
 # =============================================================================
 
 
-class _StackNode:
-    """
-    Node internal Stack.
-    Menyimpan satu data (string log transaksi) dan pointer ke node di bawahnya.
-    """
-    def __init__(self, data):
-        self.data = data
-        self.next = None   # node yang ada di bawah node ini dalam tumpukan
-
+from src.data_structures.linked_list import LLNode
 
 class Stack:
     """
@@ -48,7 +40,7 @@ class Stack:
         Node baru menjadi top baru, menunjuk ke top sebelumnya.
         Big-O: O(1).
         """
-        node      = _StackNode(data)
+        node      = LLNode(data)
         node.next = self.top   # tumpuk di atas top saat ini
         self.top  = node
         self._size += 1
