@@ -237,3 +237,83 @@ def _handle_kadaluarsa(bagian, bst_katalog):
     tampilkan_kadaluarsa(hasil, maks)
 
 
+
+def _handle_laporan(graph, bst_katalog, pq_kirim, log_transaksi, buffer_gudang):
+    """Handler perintah LAPORAN_DISTRIBUSI."""
+    _header("LAPORAN DISTRIBUSI  -  Urban Food Supply Chain Yogyakarta")
+
+    # ── 1. ringkasan jaringan ──
+    print("\n  [1] RINGKASAN JARINGAN")
+    tampilkan_semua_node(graph)
+
+    # ── 2. ringkasan katalog ──
+    print("\n  [2] RINGKASAN KATALOG PRODUK")
+    ringkasan_katalog(bst_katalog)
+
+    # ── 3. antrian pengiriman ──
+    print("\n  [3] ANTRIAN PENGIRIMAN")
+    ringkasan_antrian(pq_kirim)
+
+    # ── 4. utilisasi buffer ──
+    print("\n  [4] UTILISASI BUFFER GUDANG")
+    laporan_semua_buffer(buffer_gudang, graph.tipe_node)
+
+    # ── 5. log transaksi (5 terakhir) ──
+    print("\n  [5] LOG TRANSAKSI (5 terakhir)")
+    _tampilkan_log(log_transaksi, n=5)
+
+    _garis('═')
+
+
+def _handle_buffer(bagian, buffer_gudang, graph):
+    """Handler perintah BUFFER <node_id>."""
+    if len(bagian) < 2:
+        print("  [!] Format: BUFFER <node_id>")
+        print("      Contoh: BUFFER GDG00")
+        return
+
+    nid = bagian[1]
+    if nid not in buffer_gudang:
+        print(f"  [!] Node '{nid}' tidak ditemukan.")
+        return
+
+    tipe = graph.tipe_node.get(nid, '')
+    _header(f"Buffer Gudang  -  {nid}")
+    cek_buffer_node(buffer_gudang, nid, tipe)
+    _garis()
+
+def _handle_audit_jaringan(graph):
+    """Handler perintah AUDIT_JARINGAN."""
+    _header("Audit Konektivitas Jaringan Distribusi")
+
+    # BFS dari node pertama
+    asal_bfs = next(iter(graph.adj))
+    hasil_bfs = audit_konektivitas(graph, asal_bfs)
+
+    print(f"\n  BFS dari '{asal_bfs}':")
+    print(f"    Node dijangkau    : {len(hasil_bfs['dikunjungi'])}")
+    print(f"    Total node        : {hasil_bfs['total_node']}")
+    print(f"    Status jaringan   : "
+          f"{'TERHUBUNG PENUH ✓' if hasil_bfs['terhubung'] else 'ADA NODE TERISOLASI ✗'}")
+
+    if not hasil_bfs['terhubung']:
+        print(f"    Node terisolasi   : {', '.join(hasil_bfs['tidak_terjangkau'])}")
+
+    # DFS traversal
+    urutan_dfs = audit_dfs(graph, asal_bfs)
+    print(f"\n  DFS dari '{asal_bfs}' — urutan kunjungan ({len(urutan_dfs)} node):")
+    # tampilkan per baris, 8 node per baris
+    for i in range(0, len(urutan_dfs), 8):
+        baris = urutan_dfs[i:i + 8]
+        print(f"    {' -> '.join(baris)}")
+
+    _garis()
+
+
+def _handle_antrian(pq_kirim, bst_katalog):
+    """Handler perintah ANTRIAN."""
+    _header("Antrian Pengiriman")
+    tampilkan_antrian(pq_kirim, bst_katalog)
+    print()
+    ringkasan_antrian(pq_kirim)
+
