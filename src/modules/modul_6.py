@@ -191,3 +191,49 @@ def _handle_rute_murah(bagian, graph, log_transaksi):
         tampilkan_rute(graph, hasil)
     else:
         print(f"  [!] {hasil}")
+
+
+def _handle_cek_stok(bagian, bst_katalog):
+    """Handler perintah CEK_STOK <kode>."""
+    if len(bagian) < 2:
+        print("  [!] Format: CEK_STOK <kode>")
+        print("      Contoh: CEK_STOK PRD-003")
+        return
+
+    kode = bagian[1]
+    sukses, hasil = cek_stok_produk(bst_katalog, kode)
+
+    if sukses:
+        _header(f"Info Produk  -  {hasil.nama}")
+        tampilkan_produk(hasil)
+        _garis()
+    else:
+        print(f"  [!] {hasil}")
+
+def _handle_katalog(bst_katalog):
+    """Handler perintah KATALOG."""
+    _header("Katalog Produk")
+    tampilkan_katalog(bst_katalog)
+    _garis()
+
+def _handle_kadaluarsa(bagian, bst_katalog):
+    """Handler perintah KADALUARSA <maks_hari>."""
+    if len(bagian) < 2:
+        print("  [!] Format: KADALUARSA <maks_hari>")
+        print("      Contoh: KADALUARSA 7")
+        return
+
+    try:
+        maks = int(bagian[1])
+        if maks < 0:
+            print("  [!] maks_hari tidak boleh negatif.")
+            return
+    except ValueError:
+        print("  [!] maks_hari harus berupa angka.")
+        return
+
+    hasil = daftar_kadaluarsa(bst_katalog, maks)
+    _header(f"Produk Kadaluarsa  ≤  {maks} Hari")
+    tampilkan_kadaluarsa(hasil, maks)
+
+
