@@ -2,7 +2,7 @@
 AI_LOG – Sesi Pengerjaan Tugas Besar ASD
 Mata Kuliah  : ELT60213 – Algoritma dan Struktur Data
 Topik        : 10 – Urban Food Supply Chain Management
-Tanggal Sesi : [ISI TANGGAL PENGERJAAN]
+Tanggal Sesi : 15 Mei 2026
 AI Assistant : Claude (Anthropic) – claude.ai
 ================================================================
 
