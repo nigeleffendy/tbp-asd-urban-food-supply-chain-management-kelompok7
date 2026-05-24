@@ -26,6 +26,21 @@ from src.data_models import Produk
 # Konstanta kategori produk yang tersedia
 KATEGORI_PRODUK = ['SAYUR', 'BUAH', 'DAGING', 'IKAN', 'BAHAN_POKOK']
 
+# Mapping kategori agar selaras dengan nama produk
+KATEGORI_BY_NAMA = {
+    'Beras'      : 'BAHAN_POKOK',
+    'Cabai'      : 'SAYUR',
+    'Tomat'      : 'SAYUR',
+    'Ayam'       : 'DAGING',
+    'Ikan Lele'  : 'IKAN',
+    'Kangkung'   : 'SAYUR',
+    'Wortel'     : 'SAYUR',
+    'Kentang'    : 'SAYUR',
+    'Telur'      : 'DAGING',
+    'Tahu'       : 'BAHAN_POKOK',
+    'Tempe'      : 'BAHAN_POKOK',
+    'Minyak'     : 'BAHAN_POKOK'
+}
 
 def generate_rantai_pasok(seed: int = 61):
     """
@@ -82,7 +97,7 @@ def generate_rantai_pasok(seed: int = 61):
         produk_list.append(Produk(
             kode                = f'PRD-{i:03d}',
             nama                = nama,
-            kategori            = random.choice(KATEGORI_PRODUK),
+            kategori            = KATEGORI_BY_NAMA[nama],
             harga_satuan        = round(random.uniform(2000, 50000), -2),
             stok                = random.randint(50, 500),
             masa_kadaluarsa_hari= random.randint(1, 30)

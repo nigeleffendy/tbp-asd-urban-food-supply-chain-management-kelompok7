@@ -1,0 +1,565 @@
+================================================================
+AI_LOG – Sesi Pengerjaan Tugas Besar ASD
+Mata Kuliah  : ELT60213 – Algoritma dan Struktur Data
+Topik        : 10 – Urban Food Supply Chain Management
+Tanggal Sesi : 15 Mei 2026
+AI Assistant : Claude (Anthropic) – claude.ai
+================================================================
+
+----------------------------------------------------------------
+[001] PEMBUKAAN PROYEK
+----------------------------------------------------------------
+Prompter:
+  hai jadikan aku ada tugas besar asd dari dosen ku, kita disuruh
+  membuat sistem urban food supply chain management seperti ini
+  [melampirkan gambar slide panduan dosen Topik 10]
+
+Jawaban AI:
+  Menampilkan pertanyaan klarifikasi:
+  - Bahasa pemrograman yang digunakan → Python
+  - Apa yang dibutuhkan sekarang → semua format sudah disediakan dosen,
+    mulai dari struktur folder sampai starter code
+  - Modul mana yang dikerjakan pertama → akan mengirimkan starter code
+
+----------------------------------------------------------------
+[002] MELENGKAPI STARTER CODE
+----------------------------------------------------------------
+Prompter:
+  [melampirkan starter.py dari dosen]
+  ini starter code yang perlu kamu lengkapi, lengkapi lah bagian todo
+  dan jangan menggunakan library bawaan python pada bagian struktur data
+
+Jawaban AI:
+  Melengkapi seluruh bagian TODO pada starter code:
+  1. CircularQueue.enqueue() – pointer rear melingkar dengan modulo
+  2. CircularQueue.dequeue() – pointer front melingkar, bersihkan slot
+  3. PriorityQueueKirim.enqueue() – insertion terurut linked list O(n)
+  4. PriorityQueueKirim.dequeue() – ambil head O(1)
+  5. Stack.push() – sisip di depan linked list O(1)
+  6. Stack.pop() – ambil top O(1)
+  7. BSTKatalog.insert() – rekursif, kunci kode_produk
+  8. BSTKatalog.search() – rekursif O(log n)
+  9. BSTKatalog.update_stok() – search + update in-place
+  10. BSTKatalog.filter_kadaluarsa() – inorder traversal + filter
+  11. BSTKatalog.inorder() – left → root → right
+  12. GraphRantaiPasok.tambah_node() – dict insert O(1)
+  13. GraphRantaiPasok.tambah_jalur() – prepend linked list dua arah
+  14. GraphRantaiPasok.tetangga() – traversal linked list
+  15. dijkstra_biaya() – O(V²+E) tanpa heapq
+  16. rekonstruksi_jalur() – traversal parent array O(V)
+  17. Implementasi CLI loop lengkap: KIRIM, PROSES_KIRIM, RUTE_MURAH,
+      CEK_STOK, KADALUARSA, LAPORAN_DISTRIBUSI, BUFFER, BANTUAN, KELUAR
+  Output: file food_supply_chain.py (satu file lengkap)
+
+----------------------------------------------------------------
+[003] PEMISAHAN KE STRUKTUR FOLDER
+----------------------------------------------------------------
+Prompter:
+  [melampirkan screenshot struktur folder proyek]
+  oke sekarang ini adalah struktur folder utama yang aku buat
+  berdasarkan format dosen ku pada tugas ini. perlu kamu ketahui
+  isi dari data_models adalah mulai dari import numpy hingga @dataclass.
+  dan untuk generator data juga sesuai yang sudah dibuat dosenku pada
+  starter code. tolong kamu pisahkan dulu perbagian untuk bagian
+  src/data_structures/, berdasarkan startercode yang sudah kamu
+  lengkapi sebelumnya dan tambahkan comment sebagai penjelasan
+
+Jawaban AI:
+  Memisahkan kode menjadi 7 file di src/data_structures/:
+  1. bst.py            – BSTNodeProd, BSTKatalog + komentar lengkap
+  2. circular_queue.py – CircularQueue + penjelasan circular wrap
+  3. priority_queue.py – PriorityQueueKirim + skema prioritas 1/2/3
+  4. stack.py          – Stack LIFO + penjelasan linked list
+  5. graph.py          – EdgeNode, GraphRantaiPasok + adjacency list
+  6. dijkstra.py       – dijkstra_biaya, rekonstruksi_jalur + pseudocode
+
+----------------------------------------------------------------
+[004] PEMISAHAN data_generator.py
+----------------------------------------------------------------
+Prompter:
+  sekarang buatkan aku unit test nya untuk tiap tiap data struktur
+  yang sudah kamu pisahkan. oiya aku mau tanya, generate_data itu
+  dipakai pas apa? pisahkan sekalian dari starter code ya
+
+Jawaban AI:
+  Menjawab pertanyaan: generate_rantai_pasok() dipanggil SEKALI saat
+  program start di main(), menghasilkan "database awal" berisi:
+  - 26 node (10 Petani + 5 Distributor + 8 Pasar + 3 Gudang)
+  - ~38 edge jalur distribusi berbobot (deterministik seed=61)
+  - 12 objek Produk (Beras, Cabai, Tomat, dll.)
+
+  Membuat file src/data_generator.py (dipisah dari starter code)
+  Membuat 6 file unit test di tests/:
+  1. test_bst.py          – 5 class test, ±30 test case
+  2. test_circular_queue.py – 5 class test, ±20 test case (termasuk circular wrap)
+  3. test_priority_queue.py – 5 class test, ±22 test case
+  4. test_stack.py          – 4 class test, ±20 test case
+  5. test_graph.py          – 5 class test, ±18 test case
+  6. test_dijkstra.py       – 5 class test, ±15 test case
+
+----------------------------------------------------------------
+[005] PEMBUATAN MODUL 1–3
+----------------------------------------------------------------
+Prompter:
+  nah sekarang buatkan aku untuk bagian folder modules pada src/
+  modules/ ada 1 sampai 6 yaaa
+
+Jawaban AI:
+  Membuat src/modules/modul_1.py – modul_3.py:
+  - modul_1.py: inisialisasi_graph(), audit_konektivitas() (BFS manual),
+    audit_dfs(), tampilkan_info_node(), tampilkan_semua_node()
+  - modul_2.py: inisialisasi_buffer(), masukkan_stok(), ambil_stok(),
+    cek_buffer_node(), laporan_semua_buffer(), _intip_buffer()
+  - modul_3.py: tentukan_prioritas(), buat_pengiriman(),
+    proses_pengiriman(), tampilkan_antrian(), ringkasan_antrian()
+
+----------------------------------------------------------------
+[006] PEMBUATAN MODUL 4–6 + main.py
+----------------------------------------------------------------
+Prompter:
+  lanjutkan pembuatan modulnya, yang sebelumnya belum tuntas
+
+Jawaban AI:
+  Membuat src/modules/modul_4.py – modul_6.py + __init__.py + main.py:
+  - modul_4.py: inisialisasi_katalog(), cek_stok_produk(),
+    perbarui_stok(), daftar_kadaluarsa(), tampilkan_katalog(),
+    tampilkan_produk(), tampilkan_kadaluarsa(), ringkasan_katalog()
+  - modul_5.py: cari_rute_termurah(), tampilkan_rute() dengan breakdown
+    biaya per segmen, semua_rute_dari_node(), bandingkan_rute()
+  - modul_6.py: jalankan_cli() dengan 9 handler perintah terpisah:
+    _handle_kirim(), _handle_proses_kirim(), _handle_rute_murah(),
+    _handle_cek_stok(), _handle_kadaluarsa(), _handle_laporan(),
+    _handle_buffer(), _handle_audit_jaringan(), _handle_antrian()
+  - modules/__init__.py: re-ekspor semua fungsi utama
+  - src/main.py: entry point, inisialisasi semua state → jalankan_cli()
+
+----------------------------------------------------------------
+[007] BENCHMARK
+----------------------------------------------------------------
+Prompter:
+  nahh sekarang buatkan benchmark nya sesuai dengan format dosenku,
+  (minimal 3 ukuran data berbeda) jadikan semua runtime benchmark
+  dalam satu file aja ya pokonya sesuai format dosen. tambahkan juga
+  comment seperti analisis big o, dan penjelasan lainnya
+
+Jawaban AI:
+  Membuat experiments/benchmark.py dengan:
+  - 3 ukuran data: S(50), M(350), L(1000) sesuai spesifikasi dosen
+  - 7 benchmark terpisah:
+    1. benchmark_circular_queue() – 4 skenario: enqueue, dequeue, isolasi, 350 event
+    2. benchmark_priority_queue() – 5 skenario: enqueue, dequeue, isolasi, 350 event
+    3. benchmark_stack()          – 4 skenario: push, pop, isolasi, 350 event
+    4. benchmark_bst()            – 6 skenario: insert, search, update, filter, inorder
+    5. benchmark_graph()          – 4 skenario: tambah_node, tambah_jalur, tetangga, BFS
+    6. benchmark_dijkstra()       – 4 skenario + verifikasi rasio O(V²)
+    7. benchmark_mixed_load()     – 350 event campuran semua DS (spec dosen)
+  - cetak_ringkasan_akhir() – tabel Big-O sesuai tabel 10.3 arsitektur dosen
+  - Setiap fungsi dilengkapi docstring analisis Big-O + ekspektasi empiris
+  - Cara jalankan: python -m experiments.benchmark
+
+----------------------------------------------------------------
+[008] LAPORAN, README, DAN PRESENTASI
+----------------------------------------------------------------
+Prompter:
+  [melampirkan PDF panduan lengkap dosen ELT60213]
+  sekarang tolong aku buatkan yang belum terbuat, seperti laporan,
+  itu adalah format dari dosen ku. tolong buat laporannya berformat
+  formal dan jika ada yang tidak bisa kamu masukan berikan keterangan
+  di dalam laporan agar aku bisa menambahkannya seperti screenshot
+  dan lain lain, pastikan semuanya sesuai format dosen. buatkan juga
+  untuk file readme. buatkan sekailian pdf untuk presentasinya
+  sesuai format dosen juga
+
+Jawaban AI:
+  Membuat 3 file:
+
+  A. docs/laporan_final.pdf (ReportLab):
+     - Halaman cover: judul, nama kelompok [perlu diisi], institusi
+     - Bab I   Pendahuluan – latar belakang, tujuan, batasan, param sistem
+     - Bab II  Perancangan – pemilihan DS, justifikasi, pseudocode
+     - Bab III Implementasi – penjelasan 6 modul, contoh I/O, catatan screenshot
+     - Bab IV  Analisis Big-O – tabel kompleksitas + perbandingan teori vs empiris
+     - Bab V   Hasil Eksperimen – 6 tabel runtime (perlu diisi dari benchmark)
+     - Bab VI  Jawaban 5 Pertanyaan Analisis Wajib
+     - Bab VII Kesimpulan – pencapaian, tradeoff, saran
+     - Lampiran – pembagian tugas, log AI
+     Catatan: semua bagian [SCREENSHOT] dan [DATA] diberi keterangan
+     jelas agar bisa ditambahkan manual.
+
+  B. README.md:
+     - Deskripsi proyek + tabel struktur data & Big-O
+     - Struktur folder lengkap (tree)
+     - Cara install, cara jalankan (CLI, test, benchmark)
+     - Daftar perintah CLI lengkap + contoh sesi
+     - Parameter sistem & ringkasan Big-O
+     - Tabel anggota kelompok [perlu diisi]
+     - Checklist file pengumpulan
+
+  C. docs/slide_presentasi.pptx (python-pptx):
+     Script dibuat, build sempat error pada RGBColor argument
+     (belum selesai di sesi ini)
+
+----------------------------------------------------------------
+[009] PERMINTAAN LOG AI
+----------------------------------------------------------------
+Prompter:
+  tolong berikan aku untuk isi dari file AI_log/log.promt.txt,
+  pada sesi chat ini. dengan format prompter: dan jawaban ai:
+
+Jawaban AI:
+  Membuat file AI_Log/Log_prompt.txt berisi ringkasan seluruh
+  percakapan sesi ini dalam format yang diminta.
+
+================================================================
+Total interaksi sesi ini : 9 prompt utama
+File yang dihasilkan     : 25+ file Python + 1 PDF + 1 README
+Baris kode total (approx): ~3.000 baris
+================================================================
+
+================================================================
+SESI 2
+AI Assistant : chat GPT
+================================================================
+----------------------------------------------------------------
+[010] REVISI BENCHMARK SATU FILE
+----------------------------------------------------------------
+Prompter:
+  Nah, aku mau itu yang tadi versi revisianmu buat file benchmark ya.
+  Ingat diganti perdata berbeda. Jadi satu file semuanya.
+
+Jawaban AI:
+  Merevisi experiments/benchmark.py menjadi satu file benchmark terpadu.
+  Perubahan utama:
+  - Memisahkan benchmark berdasarkan ukuran data berbeda:
+    Small (50), Medium (350), Large (1000)
+  - Seluruh benchmark dijadikan satu file terintegrasi
+  - Menambahkan komentar analisis Big-O pada setiap benchmark
+  - Menambahkan benchmark terpisah untuk:
+    CircularQueue, PriorityQueue, Stack, BST, Graph, dan Dijkstra
+  - Menambahkan benchmark mixed workload sesuai spesifikasi dosen
+  - Menambahkan tabel ringkasan runtime akhir
+
+----------------------------------------------------------------
+[011] PEMBELAJARAN GITHUB – PULL REQUEST
+----------------------------------------------------------------
+Prompter:
+  Ini sekarang aku enggak tahu caranya pull request gimana.
+  Ajarin aku ya.
+
+Jawaban AI:
+  Menjelaskan langkah pull request menggunakan GitHub Desktop:
+  1. Commit perubahan di branch fitur
+  2. Push origin branch
+  3. Klik “Create Pull Request”
+  4. Membuka halaman GitHub
+  5. Klik “Compare & Pull Request”
+  6. Isi title + description PR
+  7. Klik “Create Pull Request”
+  8. Klik “Merge Pull Request”
+  9. Confirm Merge
+
+  Menjelaskan bahwa merge PR akan memasukkan isi branch ke branch main.
+
+----------------------------------------------------------------
+[012] VERIFIKASI MERGE PULL REQUEST
+----------------------------------------------------------------
+Prompter:
+  Pull request successfully merged and closed
+
+Jawaban AI:
+  Menjelaskan bahwa:
+  - Pull request sudah berhasil di-merge ke main
+  - Branch fitur sudah selesai digunakan
+  - Branch dapat dihapus atau tetap dipakai
+  - Cara mengecek merge:
+    1. Buka branch main
+    2. Lihat commit history
+    3. Pastikan file hasil revisi sudah muncul
+
+----------------------------------------------------------------
+[013] PENJELASAN PUSH ORIGIN
+----------------------------------------------------------------
+Prompter:
+  setelah pull request tersetujui itu harus push origin ya?
+  branchku sekarang sama main udah sama?
+
+Jawaban AI:
+  Menjelaskan:
+  - Push origin digunakan untuk mengirim commit lokal ke GitHub
+  - Jika PR sudah merged maka isi branch sudah masuk ke main
+  - Branch fitur dan main menjadi identik setelah merge
+  - Branch lama tetap bisa dipakai lanjut jika tidak dihapus
+  - Tidak wajib menghapus branch fitur
+
+----------------------------------------------------------------
+[014] PENJELASAN IMPLEMENTASI BST
+----------------------------------------------------------------
+Prompter:
+  apakah coding BST yang kamu buat memakai library python?
+
+Jawaban AI:
+  Menjelaskan bahwa implementasi BST:
+  - Tidak memakai library struktur data bawaan Python
+  - Menggunakan class node manual
+  - Traversal dilakukan rekursif manual
+  - Sesuai aturan dosen (implementasi sendiri)
+
+  Menjelaskan juga:
+  - search() → traversal node kiri/kanan
+  - insert() → penempatan node berdasarkan perbandingan kode
+  - inorder() → traversal left-root-right
+
+----------------------------------------------------------------
+[015] PENJELASAN generate_rantai_pasok() DAN seed(61)
+----------------------------------------------------------------
+Prompter:
+  terus fungsinya seed(61) dalam startercode dosen ku apa
+
+Jawaban AI:
+  Menjelaskan bahwa:
+  - np.random.seed(61) dan random.seed(61)
+    digunakan untuk membuat hasil random tetap sama setiap dijalankan
+  - Berguna agar:
+    - data benchmark konsisten
+    - pengujian unit test stabil
+    - hasil seluruh anggota kelompok sama
+  - generate_rantai_pasok() menghasilkan:
+    - node supply chain
+    - edge distribusi
+    - daftar produk awal
+
+----------------------------------------------------------------
+[016] ANALISIS STARTER CODE DOSEN
+----------------------------------------------------------------
+Prompter:
+  [mengirim ulang starter code lengkap dosen]
+
+Jawaban AI:
+  Menganalisis starter code dosen:
+  - data_models.py berisi dataclass Produk dan Pengiriman
+  - generate_rantai_pasok() wajib dipisahkan ke data_generator.py
+  - Struktur data dipisah ke folder data_structures/
+  - main() hanya sebagai orchestrator CLI
+  - Semua TODO harus diimplementasikan manual tanpa library DS Python
+
+----------------------------------------------------------------
+[017] PEMISAHAN FILE data_models.py DAN data_generator.py
+----------------------------------------------------------------
+Prompter:
+  implementasikan juga data_models ku
+
+Jawaban AI:
+  Membantu memisahkan:
+  - src/data_models.py
+  - src/data_generator.py
+
+  Isi data_models.py:
+  - import numpy/random
+  - seed(61)
+  - konstanta kategori produk
+  - dataclass Produk
+  - dataclass Pengiriman
+
+  Isi data_generator.py:
+  - generate_rantai_pasok(seed=61)
+  - generate node
+  - generate edge acak deterministik
+  - generate produk awal
+
+----------------------------------------------------------------
+[018] PENJELASAN TYPE HINT BST
+----------------------------------------------------------------
+Prompter:
+  loh itu yang bst langsung parameternya langsung produk emang bisa?
+  bukanya produk : Produk
+
+Jawaban AI:
+  Menjelaskan bahwa:
+  - produk: Produk adalah type hint
+  - Type hint hanya penjelas tipe data
+  - Tetap dipanggil menggunakan objek Produk biasa
+  - Contoh:
+      bst.insert(produk_obj)
+  - Tidak mempengaruhi runtime Python
+
+----------------------------------------------------------------
+[019] PEMBUATAN COMMIT MESSAGE
+----------------------------------------------------------------
+Prompter:
+  ini kan aku mau commit aku membuat file data generator + isi syntax nya
+  summary nya diisi apa dan deskripsinya gimana
+
+Jawaban AI:
+  Memberikan contoh commit message sesuai format dosen:
+  - feat(generator): tambah data generator rantai pasok
+  - feat(data_models): implementasi dataclass produk dan pengiriman
+  - feat(test): tambah unit test BST katalog produk
+
+  Menjelaskan:
+  - feat = fitur baru
+  - fix = perbaikan bug
+  - refactor = restrukturisasi kode
+  - exp = eksperimen benchmark
+
+----------------------------------------------------------------
+[020] ANALISIS UNIT TEST BST
+----------------------------------------------------------------
+Prompter:
+  [mengirim file test_bst.py lengkap]
+
+Jawaban AI:
+  Menganalisis unit test BST:
+  - Struktur test sudah benar
+  - Fixture bst_terisi valid
+  - Test mencakup:
+    insert, search, update_stok,
+    filter_kadaluarsa, inorder, edge case
+
+  Menjelaskan kemungkinan error:
+  - pytest belum terinstall
+  - import path belum sesuai
+  - interpreter Python VS Code berbeda
+
+----------------------------------------------------------------
+[021] INSTALL pytest DAN KONFIGURASI VS CODE
+----------------------------------------------------------------
+Prompter:
+  Import "pytest" could not be resolved
+
+Jawaban AI:
+  Membimbing:
+  1. Install pytest menggunakan pip
+  2. Pilih interpreter Python yang benar di VS Code
+  3. Reload Window
+  4. Jalankan:
+       python -m pytest tests/test_bst.py -v
+
+  Menjelaskan bahwa:
+  - Error muncul karena VS Code memakai interpreter berbeda
+  - pytest terinstall di Python 3.14 tetapi terminal memakai msys64
+
+----------------------------------------------------------------
+[022] PERBAIKAN COMMAND pytest DI POWERSHELL
+----------------------------------------------------------------
+Prompter:
+  Unexpected token '-m' in expression or statement
+
+Jawaban AI:
+  Menjelaskan syntax PowerShell yang benar:
+    & "C:\path\python.exe" -m pytest tests/test_bst.py -v
+
+  Menjelaskan:
+  - operator & wajib dipakai di PowerShell
+  - path Python harus dibungkus tanda kutip
+
+----------------------------------------------------------------
+[023] ERROR MODULE 'src'
+----------------------------------------------------------------
+Prompter:
+  ModuleNotFoundError: No module named 'src'
+
+Jawaban AI:
+  Menjelaskan penyebab:
+  - File modul dijalankan langsung
+  - Python tidak menganggap root project sebagai package root
+
+  Solusi:
+  - Jalankan dari root project:
+      python -m src.modules.modul_4
+  - Bukan:
+      python src/modules/modul_4.py
+
+----------------------------------------------------------------
+[024] ERROR numpy TIDAK TERDETEKSI
+----------------------------------------------------------------
+Prompter:
+  ModuleNotFoundError: No module named 'numpy'
+
+Jawaban AI:
+  Menjelaskan bahwa:
+  - numpy terinstall di interpreter berbeda
+  - VS Code/terminal masih memakai Python msys64
+
+  Solusi:
+  - gunakan interpreter:
+      Python 3.14.5
+  - install numpy pada interpreter yang sama
+  - cek:
+      python -m pip show numpy
+
+----------------------------------------------------------------
+[025] ANALISIS MODUL TIDAK BISA DIRUN LANGSUNG
+----------------------------------------------------------------
+Prompter:
+  coba kamu lihat codinganku itu,
+  apa memang kalau di file modul gabisa dijalankan
+
+Jawaban AI:
+  Menjelaskan bahwa:
+  - modul_4.py memang bukan entry point utama
+  - modul hanya berisi fungsi helper
+  - Tidak ada:
+      if __name__ == '__main__'
+
+  Menjelaskan arsitektur proyek:
+  - modul_1–6 → helper layer
+  - main.py → orchestration layer
+  - CLI baru bisa berjalan jika seluruh modul terhubung di main.py
+
+----------------------------------------------------------------
+[026] ANALISIS ARSITEKTUR PIPELINE DOSEN
+----------------------------------------------------------------
+Prompter:
+  [mengirim tabel 10.3 Arsitektur Pipeline]
+
+Jawaban AI:
+  Menganalisis bahwa:
+  - Sistem baru benar-benar runnable setelah modul 1–6 selesai
+  - Semua struktur data saling bergantung:
+    Graph → Queue → Priority Queue → BST → Dijkstra → CLI
+  - main.py menjadi integrator seluruh modul
+  - Tabel dosen dipakai sebagai acuan pipeline sistem penuh
+
+----------------------------------------------------------------
+[027] PENJELASAN requirements.txt
+----------------------------------------------------------------
+Prompter:
+  file requirement itu yang benar tulisannya gimana
+
+Jawaban AI:
+  Menjelaskan:
+  - Penulisan standar Python adalah:
+      requirements.txt
+  - Jika dosen menulis:
+      requirments.txt
+    maka kemungkinan typo
+
+  Saran:
+  - Ikuti nama dari dosen jika wajib sesuai template
+  - Tetapi standar industri tetap requirements.txt
+
+----------------------------------------------------------------
+[028] PERMINTAAN AI LOG LANJUTAN
+----------------------------------------------------------------
+Prompter:
+  nah sekarang aku minta ai log pada sesi chat ini,
+  kamu tinggal buat lanjutannya dari yang aku kirim
+
+Jawaban AI:
+  Membuat lanjutan AI_LOG sesuai format sebelumnya:
+  - nomor berurutan
+  - format “Prompter” dan “Jawaban AI”
+  - ringkasan teknis setiap sesi
+  - mencakup GitHub, BST, pytest, VS Code,
+    benchmark, struktur modul, dan debugging environment
+
+================================================================
+Total interaksi tambahan sesi ini : 19 prompt utama
+Topik utama tambahan    :
+- GitHub Pull Request
+- VS Code & pytest debugging
+- Struktur modular Python
+- Environment interpreter
+- Benchmark revisi
+- Dokumentasi AI Log
+================================================================
