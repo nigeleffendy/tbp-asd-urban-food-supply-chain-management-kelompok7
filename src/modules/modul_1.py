@@ -158,7 +158,7 @@ def tampilkan_info_node(graph: GraphRantaiPasok, node_id: str):
             print(f"  {edge.dest:<10} {edge.jarak_km:>8}     "
                   f"Rp {edge.biaya_per_km:>9,.0f}  Rp {total:>12,.0f}")
     else:
-        print("  (tidak ada jalur terhubung – node terisolasi)")
+        print("  (tidak ada jalur terhubung - node terisolasi)")
 
 
 def tampilkan_semua_node(graph: GraphRantaiPasok):
