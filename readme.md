@@ -9,10 +9,10 @@ Topik 10 | Teknik Elektro, Universitas Negeri Yogyakarta
 
 | No.| Nama                         | NIM           | Modul            |
 |--- |---                           |---            |---               |
-| 1  | Nigel Efendi Sebastian Purba |  25051030115  | Modul 1, 2       |
-| 2  | Kaysan Nawfal Supriyadi      |  25051030124  | Modul 3, 4       |
-| 3  | Muhammad Farhan Mustanir     |  25051030111  | Modul 5, 6       |
-| 4  | Muhammad Asri Atallah        |  25051030100  | Benchmark & Test |
+| 1  | Nigel Efendi Sebastian Purba |  25051030115  | Modul 6          |
+| 2  | Kaysan Nawfal Supriyadi      |  25051030124  | Modul 4, 5       |
+| 3  | Muhammad Farhan Mustanir     |  25051030111  | Modul 1, 2       |
+| 4  | Muhammad Asri Athallah       |  25051030100  | Modul 3          |
 
 ---
 
